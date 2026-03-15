@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#f4f1ec">
+<title>Mi Entrenamiento — Pedro</title>
+<style>
+:root{
+  --bg:#f4f1ec;--bg2:#ebe6de;--card:#fff;
+  --t:#1a1815;--t2:#5c5549;--t3:#9a9085;
+  --gr:#2d7a5f;--grl:#e8f4ef;--grm:#a8d5c4;
+  --am:#a85c0a;--aml:#fdf0e3;
+  --bl:#1a5f8a;--bll:#e6f0f7;
+  --re:#b83228;--rel:#fdecea;
+  --bo:rgba(26,24,21,.09);
+  --sh:0 1px 8px rgba(26,24,21,.06);
+  --r:14px;--rs:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%;height:100dvh;-webkit-text-size-adjust:100%}
+body{
+  min-height:100vh;min-height:100dvh;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;color:var(--t);
+  background:var(--bg);
+  max-width:480px;margin:0 auto;
+  
+  display:flex;flex-direction:column;
+}
+
+/* ── SETUP ── */
+
+/* ── MAIN APP ── */
+#mainApp{
+  flex:1;min-height:0;
+  display:flex;flex-direction:column;
+}
+
+/* NAV */
+.nav{
+  flex-shrink:0;
+  background:var(--bg);border-bottom:1px solid var(--bo);
+  padding:13px 16px 11px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-title{font-family:Georgia, 'Times New Roman', serif;font-size:20px;color:var(--t);line-height:1.2}
+.nav-pedro{font-size:11px;color:var(--gr);font-weight:600;margin-top:1px}
+.nav-sub{font-size:11px;color:var(--t3);margin-top:1px}
+.nav-ico{
+  background:var(--card);border:1px solid var(--bo);border-radius:50%;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:15px;flex-shrink:0;
+}
+
+/* SCREENS WRAP */
+#screensWrap{
+  flex:1;min-height:0;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* SCREENS */
+.scr{display:none;padding-bottom:20px}
+.scr.on{display:block}
+
+/* TABS */
+.tabs{
+  flex-shrink:0;
+  background:var(--card);border-top:1px solid var(--bo);
+  display:flex;
+}
+.tab{
+  flex:1;padding:9px 0 13px;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  cursor:pointer;border:none;background:none;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;color:var(--t3);font-size:11px;font-weight:500;
+  transition:color .15s;
+}
+.tab.on{color:var(--gr)}
+.tab-i{font-size:20px}
+
+/* SETUP PAGE */
+
+/* HERO */
+.hero{padding:20px 16px 22px;overflow:hidden}
+.hero-pedro{font-size:13px;color:rgba(255,255,255,.8);font-weight:500;margin-bottom:5px}
+.hero-quote{
+  font-family:Georgia, 'Times New Roman', serif;
+  font-size:17px;font-style:italic;line-height:1.5;
+  margin-bottom:4px;color:#fff;
+  word-wrap:break-word;overflow-wrap:break-word;
+}
+.hero-author{font-size:11px;color:rgba(255,255,255,.55);margin-bottom:16px}
+.hero-pills{display:flex;gap:8px}
+.hero-pill{flex:1;background:rgba(255,255,255,.14);border-radius:10px;padding:10px 6px;text-align:center}
+.hero-num{font-size:20px;font-weight:600;color:#fff;line-height:1}
+.hero-lbl{font-size:10px;color:rgba(255,255,255,.7);margin-top:2px}
+.hero-prog{margin-top:14px}
+.hero-prog-bar{height:4px;background:rgba(255,255,255,.2);border-radius:2px;overflow:hidden;margin-bottom:5px}
+.hero-prog-fill{height:100%;background:rgba(255,255,255,.75);border-radius:2px;transition:width .6s}
+.hero-prog-lbl{display:flex;justify-content:space-between}
+.hero-prog-lbl span{font-size:10px;color:rgba(255,255,255,.65);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:49%}
+
+/* SECTION TITLE */
+.sec{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:14px 14px 6px}
+
+/* WEEK MINI GRID */
+.wg{display:flex;gap:4px;padding:0 14px 6px}
+.wg-d{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.wg-l{font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase}
+.wg-dot{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--bg2);border:2px solid transparent;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;cursor:pointer;color:var(--t3);
+  -webkit-tap-highlight-color:rgba(0,0,0,.05);
+}
+.wg-dot.done{background:var(--gr);color:#fff;border-color:var(--gr)}
+.wg-dot.today{border-color:var(--gr)}
+
+/* TODAY CARD */
+.today-card{margin:0 12px;background:var(--card);border-radius:var(--r);border:1px solid var(--bo);overflow:hidden;box-shadow:var(--sh)}
+.today-hdr{padding:12px 12px 12px 14px;border-bottom:1px solid var(--bo);display:flex;align-items:flex-start;gap:8px}
+.today-hdr-text{flex:1;min-width:0}
+.today-lbl{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.07em}
+.today-title{font-size:15px;font-weight:600;margin-top:2px;color:var(--t);word-wrap:break-word;overflow-wrap:break-word;line-height:1.3}
+.today-sub{font-size:11px;color:var(--t3);margin-top:2px;word-wrap:break-word;overflow-wrap:break-word}
+.tei{display:flex;align-items:center;gap:9px;padding:7px 14px;border-bottom:1px solid var(--bo)}
+.tei:last-child{border-bottom:none}
+.tei-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.tei-name{font-size:13px;font-weight:500;flex:1;color:var(--t);overflow-wrap:break-word;min-width:0}
+.tei-sets{font-size:11px;color:var(--t3);flex-shrink:0;white-space:nowrap;margin-left:4px}
+
+/* BADGES */
+.badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;display:inline-block}
+.bs{background:var(--grl);color:var(--gr)}
+.ba{background:var(--aml);color:var(--am)}
+.bb{background:var(--bll);color:var(--bl)}
+.bgr{background:var(--bg2);color:var(--t3)}
+.bred{background:var(--rel);color:var(--re)}
+
+/* START BUTTON */
+.btn-start{
+  display:block;width:calc(100% - 24px);margin:10px 12px 0;
+  color:#fff;border:none;border-radius:var(--rs);padding:14px;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;font-size:15px;font-weight:600;
+  cursor:pointer;text-align:center;-webkit-appearance:none;
+  transition:opacity .15s;
+}
+.btn-start:active{opacity:.85}
+
+/* WEEK SCREEN */
+.wk-hdr{padding:12px 14px 6px}
+.wk-nav{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.wk-nav-btn{
+  background:var(--card);border:1px solid var(--bo);border-radius:50%;
+  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:18px;flex-shrink:0;color:var(--t);
+}
+.wk-nav-btn:active{background:var(--bg2)}
+.wk-nav-title{font-family:Georgia, 'Times New Roman', serif;font-size:20px;flex:1;color:var(--t)}
+.wk-phase-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;color:#fff;margin-bottom:8px}
+.day-list{padding:0 10px}
+.day-card{
+  background:var(--card);border-radius:var(--r);border:1.5px solid var(--bo);
+  box-shadow:var(--sh);margin-bottom:8px;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,.05);
+}
+.day-card:active{opacity:.9}
+.day-card.today-h{border-color:var(--gr)}
+.day-inner{display:flex;align-items:stretch}
+.day-left{
+  width:54px;flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:12px 0;
+}
+.day-letter{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase}
+.day-num{font-size:20px;font-weight:600;color:var(--t);line-height:1.1}
+.day-dot{width:6px;height:6px;border-radius:50%;margin-top:4px}
+.day-body{flex:1;padding:11px 10px 11px 8px;border-left:1px solid var(--bo);min-width:0}
+.day-name{
+  font-size:13px;font-weight:600;color:var(--t);
+  word-wrap:break-word;overflow-wrap:break-word;
+  line-height:1.3;margin-bottom:5px;
+}
+.day-meta{display:flex;gap:5px;flex-wrap:wrap}
+.day-arr{padding:0 12px;color:var(--t3);font-size:18px;display:flex;align-items:center;flex-shrink:0}
+
+/* SESSION SCREEN */
+.sess-top{padding:16px 14px 20px;color:#fff}
+.sess-back{
+  background:rgba(255,255,255,.15);border:none;border-radius:50%;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:18px;cursor:pointer;margin-bottom:12px;
+}
+.sess-title{
+  font-family:Georgia, 'Times New Roman', serif;font-size:21px;line-height:1.25;
+  margin-bottom:3px;word-wrap:break-word;overflow-wrap:break-word;
+}
+.sess-sub{font-size:12px;opacity:.75;word-wrap:break-word;overflow-wrap:break-word}
+.sess-tags{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}
+.sess-tag{
+  font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;
+  background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);white-space:nowrap;
+}
+.warn-box{
+  margin:10px 10px;background:var(--aml);
+  border-left:3px solid var(--am);border-radius:0 var(--rs) var(--rs) 0;
+  padding:10px 12px;font-size:12px;color:#7a4a0e;line-height:1.6;
+  word-wrap:break-word;overflow-wrap:break-word;
+}
+.blk-lbl{
+  font-size:10px;font-weight:600;color:var(--t3);
+  text-transform:uppercase;letter-spacing:.07em;
+  padding:12px 12px 4px;
+}
+.ex-card{margin:0 10px 6px;background:var(--card);border-radius:var(--rs);border:1px solid var(--bo);overflow:hidden}
+.ex-hdr{display:flex;align-items:flex-start;gap:9px;padding:11px 11px;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,.05);}
+.ex-idx{
+  width:22px;height:22px;border-radius:50%;
+  font-size:11px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.ex-name{
+  font-size:14px;font-weight:600;flex:1;color:var(--t);
+  word-wrap:break-word;overflow-wrap:break-word;line-height:1.3;
+}
+.ex-sets{font-size:12px;color:var(--t3);margin-top:3px;word-wrap:break-word}
+.ex-arr{font-size:14px;color:var(--t3);padding-top:2px;flex-shrink:0}
+.ex-body{display:none;padding:0 11px 12px 42px;border-top:1px solid var(--bo)}
+.ex-body.open{display:block}
+.ex-muscle{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--bg2);color:var(--t3);margin-top:8px}
+.ex-desc{font-size:13px;color:var(--t2);line-height:1.65;padding-top:9px;word-wrap:break-word;overflow-wrap:break-word}
+.ex-tip{font-size:12px;color:var(--bl);background:var(--bll);border-radius:6px;padding:8px 10px;margin-top:8px;line-height:1.55;word-wrap:break-word;overflow-wrap:break-word}
+.ex-rest-btn{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:10px;padding:10px 12px;
+  background:var(--grl);border:none;border-radius:var(--rs);
+  color:var(--gr);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;width:100%;-webkit-appearance:none;
+}
+.ex-rest-btn:active{background:var(--grm)}
+.done-btn-wrap{padding:14px 10px 6px}
+.done-btn{
+  width:100%;background:var(--gr);color:#fff;
+  border:none;border-radius:var(--rs);padding:14px;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;font-size:15px;font-weight:600;
+  cursor:pointer;text-align:center;-webkit-appearance:none;
+}
+.done-btn:active{opacity:.85}
+.done-btn.done-c{background:var(--t3)}
+
+/* PROGRESS */
+.prog-hero{padding:20px 14px 24px;color:#fff}
+.prog-title{font-family:Georgia, 'Times New Roman', serif;font-size:23px;margin-bottom:3px}
+.prog-sub{font-size:12px;opacity:.75;margin-bottom:16px;word-wrap:break-word}
+.prog-phase-wrap{background:rgba(255,255,255,.13);border-radius:10px;padding:12px 14px}
+.prog-phase-name{font-size:14px;font-weight:600;margin-bottom:3px;word-wrap:break-word}
+.prog-phase-desc{font-size:11px;opacity:.75;line-height:1.55;margin-bottom:10px;word-wrap:break-word}
+.prog-bar-bg{background:rgba(255,255,255,.2);border-radius:3px;height:5px;overflow:hidden}
+.prog-bar-fill{height:100%;background:#fff;border-radius:3px;transition:width .5s}
+.prog-bar-lbl{display:flex;justify-content:space-between;margin-top:5px}
+.prog-bar-lbl span{font-size:10px;opacity:.7}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:12px 12px 0}
+.stat-card{background:var(--card);border-radius:var(--rs);border:1px solid var(--bo);padding:12px 8px;text-align:center}
+.stat-num{font-size:22px;font-weight:600;color:var(--gr);line-height:1}
+.stat-lbl{font-size:11px;color:var(--t3);margin-top:2px}
+.phase-pills-wrap{display:flex;gap:6px;padding:0 12px;flex-wrap:wrap}
+.phase-pill{
+  padding:6px 12px;border-radius:20px;
+  border:1.5px solid var(--bo);font-size:11px;font-weight:500;
+  cursor:pointer;background:var(--card);color:var(--t2);line-height:1.3;text-align:center;
+}
+.phase-pill.cur{color:#fff;border-color:transparent}
+.phase-pill.done-ph{border-color:var(--gr);color:var(--gr)}
+.phase-pill-wk{font-size:10px;opacity:.7;display:block;margin-top:1px}
+.log-item{
+  background:var(--card);border-radius:var(--rs);border:1px solid var(--bo);
+  margin:0 12px 7px;padding:11px 12px;
+  display:flex;align-items:center;gap:10px;
+}
+.log-icon{font-size:18px;flex-shrink:0}
+.log-name{font-size:13px;font-weight:600;color:var(--t);word-wrap:break-word;min-width:0;flex:1}
+.log-date{font-size:11px;color:var(--t3)}
+.log-ck{color:var(--gr);font-size:15px;flex-shrink:0}
+
+/* TIMER OVERLAY */
+.t-ov{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  z-index:200;background:rgba(18,16,13,.92);
+  display:none;align-items:center;justify-content:center;flex-direction:column;
+  pointer-events:none;
+}
+.t-ov.vis{display:flex;pointer-events:auto}
+.t-ring{position:relative;width:180px;height:180px;margin-bottom:10px}
+.t-ring svg{transform:rotate(-90deg)}
+.t-ring-txt{
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:Georgia, 'Times New Roman', serif;font-size:52px;color:#fff;line-height:1;
+}
+.t-lbl{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:24px;text-align:center;padding:0 20px}
+.t-close{
+  padding:12px 40px;background:rgba(255,255,255,.14);
+  border:none;border-radius:28px;color:#fff;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;font-size:15px;font-weight:600;
+  cursor:pointer;-webkit-appearance:none;
+}
+.t-close:active{background:rgba(255,255,255,.25)}
+
+/* MISC */
+.spacer{height:12px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* animations removed for iOS compatibility */
+
+/* Android + cross-browser touch fixes */
+button,a,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0);}
+.day-card,.wg-dot,.ex-hdr,.nav-ico,.wk-nav-btn,.tab,.t-close,.btn-start,.done-btn,.btn-main,.ex-rest-btn{touch-action:manipulation;}
+.scr.on{display:block;width:100%;}
+</style>
+</head>
+<body>
+
+<!-- TIMER OVERLAY -->
+<div class="t-ov" id="tOv">
+  <div class="t-ring">
+    <svg width="180" height="180" viewBox="0 0 180 180">
+      <circle cx="90" cy="90" r="78" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="8"/>
+      <circle id="tArc" cx="90" cy="90" r="78" fill="none" stroke="#a8d5c4" stroke-width="8"
+        stroke-dasharray="490.1" stroke-dashoffset="0" stroke-linecap="round"/>
+    </svg>
+    <div class="t-ring-txt" id="tNum">45</div>
+  </div>
+  <div class="t-lbl" id="tLbl">Descansando…</div>
+  <button class="t-close" onclick="stopTimer()">Listo ✓</button>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp">
+
+  <div class="nav">
+    <div>
+      <div class="nav-title">Mi Entrenamiento</div>
+      <div class="nav-pedro">¡Hola, Pedro! 👋</div>
+      <div class="nav-sub" id="navSub"></div>
+    </div>
+    <div class="nav-ico" onclick="doReset()">⚙️</div>
+  </div>
+
+  <div id="screensWrap">
+
+    <div class="scr" id="scrHome">
+      <div id="heroWrap"></div>
+      <div class="sec">Sesión de hoy</div>
+      <div id="todayWrap"></div>
+      <button id="todayBtn" class="btn-start" style="display:none;background:var(--gr)" onclick="openTodaySess()">▶ Empezar sesión de hoy</button>
+      <div class="sec">Esta semana</div>
+      <div class="wg" id="homeWg"></div>
+      <div class="spacer"></div>
+    </div>
+
+    <div class="scr" id="scrWeek">
+      <div class="wk-hdr">
+        <div class="wk-nav">
+          <button class="wk-nav-btn" onclick="changeWk(-1)">‹</button>
+          <div class="wk-nav-title" id="wkTitle"></div>
+          <button class="wk-nav-btn" onclick="changeWk(1)">›</button>
+        </div>
+        <span class="wk-phase-tag" id="wkPhaseTag"></span>
+      </div>
+      <div class="day-list" id="dayList"></div>
+    </div>
+
+    <div class="scr" id="scrSess"></div>
+
+    <div class="scr" id="scrProg">
+      <div id="progHeroWrap"></div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-num" id="stSes">0</div><div class="stat-lbl">Sesiones</div></div>
+        <div class="stat-card"><div class="stat-num" id="stRac">0</div><div class="stat-lbl">Racha</div></div>
+        <div class="stat-card"><div class="stat-num" id="stWk">0/6</div><div class="stat-lbl">Esta semana</div></div>
+      </div>
+      <div class="sec" style="margin-top:10px">Fases del programa</div>
+      <div class="phase-pills-wrap" id="phasePills"></div>
+      <div class="sec" style="margin-top:10px">Historial reciente</div>
+      <div id="logList"></div>
+      <div class="spacer"></div>
+    </div>
+
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" id="tab-home" onclick="goTab('home')"><span class="tab-i">🏠</span>Inicio</button>
+    <button class="tab" id="tab-week" onclick="goTab('week')"><span class="tab-i">📅</span>Semana</button>
+    <button class="tab" id="tab-prog" onclick="goTab('prog')"><span class="tab-i">📈</span>Progreso</button>
+  </div>
+
+</div>
+
+
+<script>
+/* ══════════════════════════════════════
+   QUOTES — 42 frases, rotan por día
+══════════════════════════════════════ */
+const QQ=[
+  {q:'El dolor de hoy es la fuerza de mañana.',a:'Refrán del entrenador'},
+  {q:'No tienes que ser grande para empezar, pero sí empezar para ser grande.',a:'Zig Ziglar'},
+  {q:'La constancia hace lo que el talento solo promete.',a:'Anónimo'},
+  {q:'Cuida tu cuerpo. Es el único lugar que tienes para vivir.',a:'Jim Rohn'},
+  {q:'El cuerpo consigue lo que la mente cree.',a:'Bill Phillips'},
+  {q:'Mereces sentirte bien. Mereces moverte sin dolor.',a:'Gabriel'},
+  {q:'Un paso dado hoy vale más que una maratón soñada mañana.',a:'Anónimo'},
+  {q:'No busques la perfección. Busca el progreso.',a:'Anónimo'},
+  {q:'La disciplina es elegir entre lo que quieres ahora y lo que más quieres.',a:'Abraham Lincoln'},
+  {q:'El movimiento es medicina para la mente y el cuerpo.',a:'Dr. W. Bortz'},
+  {q:'Eres más fuerte de lo que crees. Lo estás demostrando.',a:'Gabriel'},
+  {q:'Cada día que te mueves, le ganas un poco a la inactividad.',a:'Anónimo'},
+  {q:'La fuerza viene de superar lo que pensabas que no podías.',a:'Rikki Rogers'},
+  {q:'Hoy, un poco mejor que ayer. Solo un poco.',a:'Filosofía Kaizen'},
+  {q:'El esfuerzo nunca miente. Nunca.',a:'Anónimo'},
+  {q:'Los grandes cambios empiezan con pequeños pasos diarios.',a:'Anónimo'},
+  {q:'La salud no es un destino. Es un camino que vale la pena recorrer.',a:'Anónimo'},
+  {q:'Tu espalda agradece cada vez que la cuidas.',a:'Gabriel'},
+  {q:'No te compares con nadie. Tú tienes tu propio ritmo.',a:'Anónimo'},
+  {q:'Cada movimiento que haces hoy es una inversión en tu bienestar futuro.',a:'Anónimo'},
+  {q:'El único mal entrenamiento es el que no hiciste.',a:'Anónimo'},
+  {q:'Pequeños pasos, grandes cambios.',a:'Anónimo'},
+  {q:'La espalda que cuidas hoy trabaja para ti mañana.',a:'Gabriel'},
+  {q:'Tu cuerpo puede con casi cualquier cosa. Primero convence a la mente.',a:'Anónimo'},
+  {q:'Hoy es un buen día para cuidarte.',a:'Anónimo'},
+  {q:'El éxito es la suma de pequeños esfuerzos repetidos día tras día.',a:'Robert Collier'},
+  {q:'Empieza donde estás. Usa lo que tienes. Haz lo que puedes.',a:'Arthur Ashe'},
+  {q:'Bienestar: no es cómo te ves, sino cómo te sientes.',a:'Anónimo'},
+  {q:'La constancia es el secreto de los que parecen tener suerte.',a:'Anónimo'},
+  {q:'La fuerza que ganas aquí se nota en todo lo demás.',a:'Gabriel'},
+  {q:'No corras si puedes caminar. No te quedes parado si puedes caminar.',a:'Anónimo'},
+  {q:'Cada semana completada es un logro real. Celébralo.',a:'Gabriel'},
+  {q:'El movimiento diario es lo más potente que puedes hacer por tu salud.',a:'Dr. Mike Evans'},
+  {q:'Respira. Muévete. Repite.',a:'Anónimo'},
+  {q:'Antes de rendirte, recuerda por qué empezaste.',a:'Anónimo'},
+  {q:'Lo que haces hoy puede mejorar todos tus mañanas.',a:'Ralph Marston'},
+  {q:'Envejecer es obligatorio. Quedarse quieto, no.',a:'Anónimo'},
+  {q:'Tu mejor inversión es la que haces en tu propia salud.',a:'Anónimo'},
+  {q:'La perseverancia no es una carrera larga. Son muchas carreras cortas seguidas.',a:'Walter Elliot'},
+  {q:'Sudas mientras entrenas; brillas mientras descansas.',a:'Anónimo'},
+  {q:'6 meses. Un nuevo tú. Sigues aquí: eso ya es una victoria.',a:'Gabriel'},
+  {q:'Cada ejercicio que terminas es una promesa que te cumples a ti mismo.',a:'Gabriel'},
+];
+
+/* ══════════════════════════════════════
+   EXERCISE LIBRARY
+══════════════════════════════════════ */
+const EX={
+  march:{n:'Marcha en sitio',m:'Calentamiento general',rest:0,
+    d:'De pie, eleva las rodillas alternativamente como si caminaras sin moverte del sitio. Los brazos se mueven al ritmo de las piernas de forma natural.',
+    tip:'Mantén la espalda recta y el abdomen ligeramente activo. El objetivo es solo activar la circulación, no fatigarse.'},
+  catcow:{n:'Cat-cow (columna)',m:'Columna vertebral',rest:0,
+    d:'En cuadrupedia. GATO: redondea la espalda hacia arriba, abdomen hacia dentro, cabeza abajo. VACA: hunde la espalda, saca el pecho, levanta la cabeza. Alterna muy despacio, 4 segundos en cada posición.',
+    tip:'Este es el ejercicio más importante del programa para la hernia discal. Cuanto más lento lo hagas, más descomprime el disco.'},
+  shoulderrot:{n:'Rotación de hombros',m:'Hombros · cuello',rest:0,
+    d:'Círculos amplios con los hombros: 10 repeticiones hacia atrás y 10 hacia delante.',
+    tip:'Los círculos hacia atrás son prioritarios — abren el pecho y contrarrestan la postura encorvada del trabajo de oficina.'},
+  hipcircles:{n:'Círculos de cadera',m:'Cadera · lumbar',rest:0,
+    d:'De pie, manos en las caderas. Círculos lentos y amplios con la pelvis en ambas direcciones, como un hula-hoop. Los pies no se mueven.',
+    tip:'Cuanto más amplio el círculo, mejor se calienta la cadera y la zona lumbar.'},
+  jointrot:{n:'Rotaciones articulares',m:'Todo el cuerpo',rest:0,
+    d:'De pie, moviliza en orden: cuello (solo de lado a lado, nunca círculo completo), hombros, codos, muñecas, cadera, rodillas y tobillos. Unas 10 rotaciones por articulación.',
+    tip:'No te saltes las muñecas antes de los ejercicios con banda: son las articulaciones más expuestas.'},
+  shadowwarm:{n:'Sombra de boxeo (calentamiento)',m:'Hombros · coordinación',rest:0,
+    d:'Golpes muy suaves al aire sin fuerza ni velocidad. Solo para soltar los hombros antes del contacto con el saco.',
+    tip:'Exhala suavemente en cada golpe para establecer el patrón de respiración correcto.'},
+  hiplot:{n:'Rotación de cadera de pie',m:'Cadera · pelvis',rest:0,
+    d:'De pie con pies algo más anchos que los hombros. Manos en caderas. Círculos amplios y lentos en ambas direcciones.',
+    tip:'Es normal sentir pequeños crujidos al principio. Con el tiempo la movilidad mejora notablemente.'},
+  birddog:{n:'Bird-dog',m:'Core profundo · lumbar',rest:45,
+    d:'En cuadrupedia: extiende el brazo derecho hacia delante y la pierna izquierda hacia atrás al mismo tiempo. Espalda completamente plana, caderas niveladas. Aguanta 3 segundos, vuelve al centro con control. Alterna lados.',
+    tip:'Imagina que tienes un vaso de agua en la espalda baja que no debe derramarse. Si las caderas rotan, reduce el rango del movimiento.'},
+  birddogh:{n:'Bird-dog con aguante prolongado',m:'Core profundo · estabilidad',rest:45,
+    d:'Igual que el bird-dog estándar pero aguantando 5 segundos en la posición extendida antes de volver. Mayor activación de los músculos estabilizadores profundos.',
+    tip:'Respira con normalidad durante el aguante. Si contienes el aliento, la presión lumbar aumenta innecesariamente.'},
+  deadbug:{n:'Dead bug (insecto muerto)',m:'Core profundo · anti-rotación',rest:45,
+    d:'Tumbado boca arriba, brazos hacia el techo, rodillas a 90° en el aire. Baja lentamente el brazo derecho sobre la cabeza mientras extiendes la pierna izquierda. La espalda baja siempre pegada al suelo. Vuelve al centro y alterna.',
+    tip:'Si la espalda se despega del suelo, reduce cuánto bajas brazo y pierna. Eso es correcto, no un fallo.'},
+  glubridge:{n:'Puente de glúteos',m:'Glúteos · lumbar',rest:45,
+    d:'Tumbado boca arriba, rodillas dobladas, pies en el suelo. Aprieta los glúteos y empuja las caderas hacia arriba hasta formar una línea recta de rodillas a hombros. Aguanta 2 segundos arriba y baja lento.',
+    tip:'El movimiento nace de apretar los glúteos, no de empujar con los pies. Un glúteo fuerte descarga directamente la lumbar.'},
+  glubridgep:{n:'Puente de glúteos con pausa',m:'Glúteos · activación',rest:45,
+    d:'Igual que el puente estándar pero aguantando 3–4 segundos en la parte más alta apretando los glúteos al máximo antes de bajar.',
+    tip:'Este pequeño cambio multiplica la activación muscular. Con el tiempo notarás una mejora clara en la estabilidad de la espalda.'},
+  singlebridge:{n:'Puente unilateral de glúteos',m:'Glúteos · estabilidad pélvica',rest:45,
+    d:'Desde la posición de puente, extiende una pierna completamente manteniendo las caderas al mismo nivel. Aguanta 3 segundos y vuelve a las dos piernas antes de cambiar de lado.',
+    tip:'Si las caderas caen hacia el lado de la pierna levantada, aún no es el momento. Vuelve al puente con dos piernas.'},
+  plankknees:{n:'Plancha en rodillas',m:'Core · estabilidad',rest:45,
+    d:'Boca abajo, antebrazos apoyados (codos bajo los hombros) y rodillas en el suelo. Línea recta de rodillas a nuca. Activa el abdomen y aguanta.',
+    tip:'No subas ni bajes las caderas. Si pierdes la línea recta, descansa. La calidad del aguante importa más que el tiempo.'},
+  planktoes:{n:'Plancha completa (puntas)',m:'Core · cuerpo completo',rest:45,
+    d:'Igual que la plancha en rodillas pero apoyado en puntas de pie. Línea perfecta de talones a nuca. Activa abdomen, glúteos y muslos.',
+    tip:'Si notas tensión en la lumbar, vuelve a la versión en rodillas. Mejor plancha en rodillas perfecta que plancha completa con mala postura.'},
+  plankreach:{n:'Plancha con extensión de brazo',m:'Core · anti-rotación',rest:45,
+    d:'Desde la plancha en rodillas, levanta un brazo hacia delante a la altura del hombro. Aguanta 3 segundos sin rotar las caderas. Alterna brazos.',
+    tip:'El reto es que el tronco no gire al levantar el brazo. El abdomen apretado es lo que lo impide.'},
+  superman:{n:'Superman modificado',m:'Extensores de espalda · glúteos',rest:45,
+    d:'Tumbado boca abajo, brazos extendidos al frente. Levanta suavemente brazos, pecho y cabeza unos pocos centímetros del suelo. Aguanta 3 segundos y baja con control.',
+    tip:'El movimiento es pequeño: solo 3–5 cm del suelo. No fuerces más rango. La contracción muscular importa, no la altura.'},
+  bandrowsit:{n:'Remo sentado con banda',m:'Espalda media · bíceps',rest:60,
+    d:'Sentado en silla, banda anclada al frente. Con un extremo en cada mano, tira hacia el ombligo manteniendo los codos pegados y los hombros hacia atrás.',
+    tip:'El movimiento viene de apretar la espalda, no de tirar con los brazos. Agarre relajado para proteger las manos.'},
+  bandrowst:{n:'Remo de pie con banda',m:'Espalda media · core',rest:60,
+    d:'De pie, banda anclada al frente a la altura del pecho. Ligera inclinación hacia delante. Tira hacia el ombligo apretando los omóplatos como si aplastaras una nuez entre ellos.',
+    tip:'Al estar de pie el core trabaja también para estabilizar. Espalda recta y rodillas ligeramente dobladas.'},
+  bandrow1a:{n:'Remo unilateral con banda',m:'Espalda · anti-rotación',rest:60,
+    d:'De pie, banda anclada al frente. Con un solo brazo, tira hacia el costado del cuerpo. El tronco permanece completamente estable sin rotar hacia ningún lado.',
+    tip:'El reto es el tronco quieto, no el brazo. Aprieta el abdomen con fuerza para no girar.'},
+  bandpresssit:{n:'Press de hombros sentado',m:'Hombros · tríceps',rest:60,
+    d:'Sentado, pisa la banda con ambos pies. Sujeta un extremo en cada mano a la altura de los hombros. Empuja hacia arriba por encima de la cabeza. Baja lentamente.',
+    tip:'No bloquees los codos al subir. La bajada debe ser más lenta que la subida — es donde más trabaja el músculo.'},
+  bandpressst:{n:'Press de hombros de pie',m:'Hombros · core · tríceps',rest:60,
+    d:'De pie, pisa la banda. Desde la altura de los hombros, empuja hacia arriba. El core trabaja activamente para mantener la columna recta.',
+    tip:'No arquees la espalda al empujar. Si lo haces, reduce la resistencia acortando la banda.'},
+  wallpush:{n:'Flexión en pared',m:'Pecho · hombros · tríceps',rest:45,
+    d:'De pie frente a la pared, palmas a la altura del pecho. Inclínate doblando los codos y empuja volviendo a la posición inicial. El cuerpo recto como una tabla.',
+    tip:'Cuanto más lejos te sitúes de la pared, más difícil. La progresión natural es: pared → mesa → suelo.'},
+  inclinepush:{n:'Flexión inclinada (mesa)',m:'Pecho · hombros · tríceps',rest:45,
+    d:'Apoya las manos en una mesa firme o en el respaldo de una silla robusta. Con el cuerpo en línea recta, dóblate hacia la superficie y empuja.',
+    tip:'Más baja la superficie = más difícil. Comprueba que la superficie sea estable antes de empezar.'},
+  bandpull:{n:'Separación de banda (pull-apart)',m:'Espalda alta · postura',rest:45,
+    d:'De pie o sentado, sujeta la banda con las dos manos a la anchura de los hombros, brazos extendidos al frente. Estira la banda separando las manos hacia los lados hasta pegarla al pecho. Vuelve lentamente.',
+    tip:'La vuelta lenta es donde ocurre el trabajo real. No dejes que la banda te devuelva — contrólala.'},
+  bandfacepull:{n:'Face pull con banda',m:'Hombros posteriores · postura',rest:45,
+    d:'Banda anclada a la altura de la cara. Sujeta los extremos y tira hacia la cara separando las manos. Los codos acaban por encima de los hombros. Vuelve lentamente.',
+    tip:'Fundamental para la salud de los hombros a largo plazo. Contrarresta la postura encorvada del trabajo sentado.'},
+  bandbicep:{n:'Curl de bíceps con banda',m:'Bíceps · antebrazo',rest:45,
+    d:'De pie, pisa la banda. Brazos a los lados, dobla los codos trayendo las manos hacia los hombros. La bajada dura el doble que la subida.',
+    tip:'Prueba el agarre en martillo (pulgares arriba) si el agarre normal causa molestia en muñecas o manos.'},
+  bandtricep:{n:'Extensión de tríceps con banda',m:'Tríceps',rest:45,
+    d:'Banda anclada arriba. Sujeta con ambas manos, codos doblados junto a la cabeza. Extiende los brazos hacia abajo manteniendo los codos quietos y pegados. Vuelve lentamente.',
+    tip:'Los codos no se mueven del sitio. Si se separan hacia los lados, el ejercicio pierde toda su efectividad.'},
+  bandrowcurl:{n:'Remo + curl de bíceps',m:'Espalda · bíceps',rest:45,
+    d:'Remo de pie con banda y al llegar al final añade la flexión del bíceps. Movimiento fluido y continuo.',
+    tip:'La fluidez hace que los músculos trabajen de forma más funcional. Cuida el agarre para no forzar las muñecas.'},
+  chairsquat:{n:'Sentadilla a silla',m:'Cuádriceps · glúteos · lumbar',rest:60,
+    d:'De pie frente a una silla, pies a la anchura de los hombros. Dobla rodillas y caderas hasta rozar la silla sin llegar a sentarte. Vuelve arriba. Espalda recta, peso en los talones.',
+    tip:'Las rodillas siguen la dirección de los pies — nunca se meten hacia dentro. La silla es tu límite de seguridad.'},
+  bandsquat:{n:'Sentadilla con banda',m:'Cuádriceps · glúteos · core',rest:60,
+    d:'Pisa la banda con ambos pies a la anchura de los hombros. Sujeta los extremos a la altura de los hombros. Baja en sentadilla manteniendo el pecho levantado.',
+    tip:'La banda te ayuda a mantener el torso más erguido. Exhala al subir.'},
+  wallsquat:{n:'Sentadilla en pared (wall sit)',m:'Cuádriceps · isométrico',rest:30,
+    d:'Apoya la espalda en la pared y deslízate hacia abajo hasta que los muslos estén lo más cercanos a paralelos al suelo que puedas sin dolor. Mantén la posición el tiempo indicado.',
+    tip:'Los pies deben estar lo suficientemente alejados de la pared para que las rodillas queden sobre los tobillos, no por delante.'},
+  squatpress:{n:'Sentadilla + press de hombros',m:'Cuerpo completo · cardio',rest:60,
+    d:'Pisa la banda, sujeta los extremos a los hombros. Baja en sentadilla y al subir continúa el movimiento empujando los brazos hacia arriba. Un movimiento fluido y continuo.',
+    tip:'Combina fuerza de piernas y hombros con trabajo cardiovascular. La fluidez genera el efecto metabólico.'},
+  latstep:{n:'Step lateral suave',m:'Cadera · aductores',rest:30,
+    d:'Da un paso lateral con el pie derecho y luego junta el pie izquierdo. Repite en esa dirección el número indicado y vuelve al otro lado. Tranquilo y controlado.',
+    tip:'Mantén el torso erguido y el abdomen ligeramente activo. No hace falta velocidad.'},
+  bandlat:{n:'Marcha lateral con banda',m:'Glúteo medio · cadera · rodillas',rest:45,
+    d:'Coloca la banda alrededor de los tobillos. Pies a la anchura de las caderas, rodillas ligeramente dobladas. Da 10 pasos laterales a cada lado manteniendo la tensión en la banda.',
+    tip:'Si la banda se afloja al juntar los pies, los estás juntando demasiado. Mantén siempre algo de separación.'},
+  stepup:{n:'Subida al escalón',m:'Cuádriceps · glúteos · equilibrio',rest:60,
+    d:'De pie frente a un escalón o superficie firme de unos 20–25 cm. Coloca el pie derecho en el escalón y empuja con ese pie para subir. Baja con control y repite. Completa las repeticiones y cambia de pierna.',
+    tip:'Todo el trabajo lo hace el pie que está arriba. El pie de abajo no empuja — solo toca el suelo para equilibrio.'},
+  revlunge:{n:'Zancada inversa',m:'Cuádriceps · glúteos · equilibrio',rest:60,
+    d:'De pie, da un paso hacia atrás con una pierna. Deja caer la rodilla trasera hacia el suelo sin tocarlo mientras el tronco se mantiene erguido. El peso en el pie delantero. Vuelve a la posición inicial.',
+    tip:'La zancada hacia atrás es más segura para la columna que la hacia delante. Si hay molestia en la rodilla delantera, reduce cuánto bajas.'},
+  banddead:{n:'Peso muerto con banda',m:'Cadena posterior · glúteos · lumbar',rest:60,
+    d:'Pisa la banda con ambos pies a la anchura de las caderas. Sujeta los extremos. Con la espalda recta, inclina ligeramente la cadera hacia atrás. Vuelve extendiendo la cadera hacia delante hasta quedar completamente recto.',
+    tip:'El movimiento nace de la cadera, no de la espalda. Si sientes tensión lumbar, reduce el rango. Espalda neutral siempre.'},
+  hipthrust:{n:'Hip thrust',m:'Glúteos · cadena posterior',rest:45,
+    d:'Apoya la parte alta de la espalda en el borde firme de una silla o sofá. Pies en el suelo, rodillas a 90°. Baja las caderas y súbelas apretando los glúteos hasta quedar paralelo al suelo.',
+    tip:'Barbilla hacia el pecho durante todo el movimiento. Si miras hacia arriba, la columna cervical se comprime.'},
+  calfraise:{n:'Elevación de talones',m:'Gemelos · tobillos',rest:30,
+    d:'De pie con las manos apoyadas en la pared para equilibrio. Eleva ambos talones subiendo sobre las puntas. Aguanta 1 segundo arriba y baja muy lentamente (3 segundos).',
+    tip:'La bajada lenta es donde más trabaja el músculo. Si ya resulta fácil, hazlo en el borde de un escalón.'},
+  hipflex:{n:'Estiramiento de psoas (cadera)',m:'Flexores de cadera · lumbar',rest:0,
+    d:'Una rodilla en el suelo (puedes poner un cojín), la otra pierna adelantada con el pie en el suelo. Empuja las caderas hacia delante y ligeramente abajo hasta notar el estiramiento en la parte delantera del muslo.',
+    tip:'El psoas es el músculo que más se tensa al pasar horas sentado. Su rigidez contribuye directamente al dolor lumbar.'},
+  piriforme:{n:'Estiramiento piriforme (figura 4)',m:'Piriforme · ciática',rest:0,
+    d:'Tumbado boca arriba, dobla la rodilla derecha y coloca el tobillo derecho sobre la rodilla izquierda. Empuja suavemente la rodilla derecha hacia el suelo. Para intensificar, levanta la pierna izquierda.',
+    tip:'Este estiramiento alivia directamente la presión sobre el nervio ciático. Si se siente en la parte trasera de la pierna, es exactamente donde debe sentirse.'},
+  hamstring:{n:'Estiramiento de isquiotibiales',m:'Isquiotibiales · ciática',rest:0,
+    d:'Tumbado boca arriba, lleva una pierna extendida hacia el pecho sujetándola con las manos o con la banda. La otra pierna permanece en el suelo. Mantén la pierna lo más recta que puedas sin dolor.',
+    tip:'Si hay tensión detrás de la rodilla, dobla ligeramente la rodilla. Los isquiotibiales cortos aumentan la tensión sobre la ciática.'},
+  childpose:{n:'Postura del niño modificada',m:'Lumbar · caderas · hombros',rest:0,
+    d:'De rodillas con las rodillas separadas a la anchura de las caderas o más. Siéntate hacia los talones y extiende los brazos al frente dejando que el torso caiga entre los muslos.',
+    tip:'Si los talones no llegan a los glúteos, coloca una toalla doblada entre muslos y pantorrillas. Esta postura descomprime activamente la columna lumbar.'},
+  thoracicrot:{n:'Rotación torácica en suelo',m:'Columna torácica · movilidad',rest:0,
+    d:'Tumbado de lado con las rodillas dobladas a 90°. Extiende los brazos al frente con las palmas juntas. Lleva el brazo superior hacia el otro lado rotando solo la parte media de la espalda, manteniendo las rodillas en el suelo.',
+    tip:'La rotación es de la columna torácica (media), no de la lumbar. Las rodillas no se mueven. Si se mueven, reduce el rango.'},
+  lumbartwist:{n:'Torsión lumbar suave',m:'Lumbar · piriformes',rest:0,
+    d:'Tumbado boca arriba, dobla las rodillas hacia el pecho y déjalas caer suavemente hacia un lado mientras los hombros permanecen en el suelo. Aguanta y cambia de lado.',
+    tip:'Sin forzar. Deja que la gravedad haga el trabajo. El alivio inmediato que se siente es la descompresión de la lumbar.'},
+  chestopen:{n:'Apertura de pecho con banda',m:'Pecho · hombros · postura',rest:0,
+    d:'De pie o sentado. Sujeta la banda detrás de la espalda con las dos manos, palmas hacia fuera. Estira la banda alejando las manos, abriendo el pecho y llevando los hombros hacia atrás.',
+    tip:'Ideal para contrarrestar la postura encorvada. Con el tiempo notarás que mantener los hombros atrás requiere menos esfuerzo.'},
+  pigeon:{n:'Paloma modificada',m:'Piriforme · cadera profunda',rest:0,
+    d:'En el suelo, coloca la pierna derecha doblada al frente (espinilla lo más paralela posible al frente) y extiende la pierna izquierda hacia atrás. Inclínate progresivamente hacia delante sobre la pierna delantera.',
+    tip:'Si resulta muy intenso en la rodilla o cadera, mantén la versión de figura 4 tumbado. Ambas son igual de efectivas.'},
+  boxing1:{n:'Saco de boxeo — 1 minuto',m:'Cardio · estrés · coordinación',rest:60,
+    d:'Golpea el saco durante 1 minuto con golpes suaves y rítmicos. No importa la técnica: importa el ritmo y exhalar en cada golpe.',
+    tip:'Con palma abierta o con guantes y vendas. Nunca con el puño cerrado sin protección para preservar las articulaciones de las manos.'},
+  boxing2:{n:'Saco de boxeo — 2 minutos',m:'Cardio · potencia · estrés',rest:60,
+    d:'2 minutos continuos en el saco buscando un ritmo sostenible. Alterna entre golpes fuertes y suaves para manejar la fatiga. Si necesitas parar 10 segundos, hazlo y vuelve.',
+    tip:'El sudor y el pulso alto son exactamente lo que buscamos para quemar grasa. Cada golpe también libera la tensión acumulada.'},
+  boxing3:{n:'Saco de boxeo — 3 minutos',m:'Cardio intenso · potencia',rest:90,
+    d:'3 minutos continuos. A estas alturas debes notar claramente la fatiga cardiovascular. Mantén los pies en movimiento incluso cuando no golpeas.',
+    tip:'Si el pulso sube demasiado, baja la intensidad pero no te pares. Seguir a ritmo bajo es mejor que parar.'},
+  boxingcombo:{n:'Saco — combinaciones',m:'Cardio · coordinación · técnica',rest:60,
+    d:'Practica combinaciones: (1) jab-jab-cruzado, (2) jab-cruzado-gancho izquierdo. 1 minuto de cada combinación buscando fluidez más que potencia.',
+    tip:'El descanso entre combinaciones es activo: da pequeños pasos alrededor del saco. Nunca te quedes completamente parado.'},
+  steptoch:{n:'Paso lateral con toque',m:'Cardio suave · coordinación',rest:0,
+    d:'Da un paso lateral con el pie derecho y toca el suelo con el pie izquierdo al juntar. Alterna lados de forma rítmica. Puedes añadir los brazos moviéndolos arriba y abajo.',
+    tip:'Cardio de bajo impacto perfecto para días en que la espalda está más sensible. Sin impacto en el suelo.'},
+  breathdeep:{n:'Respiración abdominal',m:'Sistema nervioso · estrés',rest:0,
+    d:'Tumbado o sentado, mano en abdomen y otra en el pecho. Inhala 4 segundos haciendo que solo suba la mano del abdomen. Exhala 6 segundos. La mano del pecho no se mueve.',
+    tip:'La exhalación larga activa el sistema nervioso parasimpático, reduciendo el cortisol y el estrés acumulado durante el día.'},
+  breath478:{n:'Respiración 4-7-8',m:'Anti-estrés · sistema nervioso',rest:0,
+    d:'Inhala por la nariz contando 4 segundos. Aguanta 7 segundos. Exhala lentamente por la boca contando 8 segundos. Repite 5 veces.',
+    tip:'Si los 7 segundos son demasiados al principio, hazlo 4-4-6 y ve aumentando. Es la técnica de relajación más efectiva disponible.'},
+  breathbox:{n:'Respiración cuadrada',m:'Concentración · estrés',rest:0,
+    d:'Inhala 4 seg. Aguanta 4 seg. Exhala 4 seg. Aguanta vacío 4 seg. Repite el ciclo 5 veces. La técnica de manejo del estrés que usan los militares de élite.',
+    tip:'Una vez dominada puede bajar la ansiedad en menos de 2 minutos. Úsala también fuera del entrenamiento cuando el estrés del trabajo apriete.'},
+};
+
+/* ══════════════════════════════════════
+   PHASES
+══════════════════════════════════════ */
+const PHASES=[
+  {n:1,name:'Fase 1 — Fundación',weeks:'1–4',c:'#2d7a5f',
+   desc:'Aprender los patrones de movimiento con técnica correcta. Activar el core, mejorar la movilidad y sentar las bases de todo lo que viene.'},
+  {n:2,name:'Fase 2 — Construcción',weeks:'5–8',c:'#1a5f8a',
+   desc:'El cuerpo ya conoce los movimientos. Aumentamos series, reps y añadimos nuevos ejercicios. La fuerza empieza a ser visible en el día a día.'},
+  {n:3,name:'Fase 3 — Desarrollo',weeks:'9–12',c:'#6e3fa0',
+   desc:'Movimientos más complejos. Los cambios en composición corporal son claramente perceptibles. La resistencia al esfuerzo ha mejorado notablemente.'},
+  {n:4,name:'Fase 4 — Consolidación',weeks:'13–16',c:'#a85c0a',
+   desc:'Combinamos movimientos en circuitos. El gasto calórico por sesión aumenta. La ciática y la movilidad lumbar deberían estar significativamente mejor que al inicio.'},
+  {n:5,name:'Fase 5 — Progresión',weeks:'17–20',c:'#b83228',
+   desc:'Variaciones más exigentes. 4 meses de trabajo acumulado se notan en la fuerza, el peso y la energía diaria.'},
+  {n:6,name:'Fase 6 — Rendimiento',weeks:'21–26',c:'#1a4a2e',
+   desc:'Fase final de 6 semanas. Consolidar todo lo ganado. Al terminar, el cuerpo habrá cambiado de forma real y medible.'},
+];
+
+/* ══════════════════════════════════════
+   SESSION BUILDER
+══════════════════════════════════════ */
+function S(title,sub,type,warn,blocks){return{title,sub,type,warn,blocks};}
+function B(name,exs){return{name,exs};}
+
+const SS={
+  // ─── PHASE 1 ───
+  p1sa:S('Core y tren superior','Fase 1 · 30 min · banda + esterilla','strength',
+    'Si sientes dolor que baje por la pierna durante cualquier ejercicio, detén la sesión. El ardor muscular es normal; el dolor irradiado no lo es.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep muy lentas'],['shoulderrot','30 seg cada dirección']]),
+    B('Bloque principal · 20 min',[['birddog','3 × 8 rep/lado · aguante 3 seg'],['glubridge','3 × 12 rep · aguante 2 seg'],['bandrowsit','3 × 12 rep'],['bandpresssit','2 × 10 rep'],['plankknees','3 × 20 seg']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['hamstring','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p1mob:S('Movilidad y descompresión lumbar','Fase 1 · 30 min · esterilla','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['jointrot','3 minutos']]),
+    B('Bloque principal · 20 min',[['catcow','3 × 10 rep lentas'],['thoracicrot','3 × 8 rep/lado'],['hipflex','3 × 30 seg/lado'],['childpose','3 × 30 seg'],['chestopen','3 × 10 rep'],['piriforme','2 × 30 seg/lado']]),
+    B('Enfriamiento · 5 min',[['lumbartwist','2 × 20 seg/lado'],['breath478','5 respiraciones completas']])]),
+  p1sb:S('Core y tren inferior','Fase 1 · 30 min · silla','strength',
+    'En la sentadilla a silla: para cuando rozas la silla sin llegar a sentarte. Eso protege columna y rodillas.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['hipcircles','30 seg cada dirección']]),
+    B('Bloque principal · 20 min',[['chairsquat','3 × 10 rep'],['birddog','3 × 8 rep/lado'],['glubridge','3 × 12 rep'],['latstep','2 × 8 rep/lado'],['bandrowsit','2 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','2 × 30 seg/lado'],['piriforme','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p1fun:S('Funcional y saco · introducción','Fase 1 · 30 min · saco','functional',
+    'Saco con palma abierta o con guantes y vendas. Nunca con el puño cerrado sin protección.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shadowwarm','1 minuto']]),
+    B('Bloque principal · 20 min',[['boxing1','2 rondas · 1 min descanso entre rondas'],['chairsquat','3 × 10 rep'],['birddog','3 × 8 rep/lado'],['glubridge','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['childpose','2 × 30 seg'],['shoulderrot','30 seg cada dirección'],['breathdeep','2 minutos']])]),
+  p1sa2:S('Core y tren superior · progresión','Fase 1 · sem. 3–4 · 30 min','strength',
+    'Misma indicación: cualquier dolor que baje por la pierna = parar y descansar.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shoulderrot','30 seg cada dirección']]),
+    B('Bloque principal · 20 min',[['birddog','3 × 10 rep/lado'],['glubridge','3 × 15 rep'],['bandrowsit','3 × 12 rep'],['bandpresssit','3 × 10 rep'],['bandpull','2 × 12 rep'],['plankknees','3 × 25 seg']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['chestopen','2 × 12 rep'],['breathdeep','2 minutos']])]),
+  p1mob2:S('Movilidad · variante postura','Fase 1 · sem. 3–4 · 30 min','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shoulderrot','30 seg/dirección'],['hipcircles','30 seg/lado']]),
+    B('Bloque principal · 20 min',[['catcow','3 × 10 rep'],['thoracicrot','3 × 8 rep/lado'],['hipflex','3 × 30 seg/lado'],['hamstring','2 × 30 seg/lado'],['chestopen','2 × 12 rep'],['piriforme','2 × 30 seg/lado']]),
+    B('Enfriamiento · 5 min',[['childpose','2 × 30 seg'],['breathdeep','3 minutos']])]),
+  p1sb2:S('Core y tren inferior · más volumen','Fase 1 · sem. 3–4 · 30 min','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['hiplot','1 minuto']]),
+    B('Bloque principal · 20 min',[['chairsquat','3 × 12 rep'],['birddog','3 × 10 rep/lado'],['glubridgep','3 × 12 rep'],['latstep','3 × 10 rep/lado'],['bandrowsit','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','2 × 30 seg/lado'],['piriforme','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p1fun2:S('Funcional · más saco','Fase 1 · sem. 3–4 · 30 min','functional',
+    'Saco con palma o guantes y vendas.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shadowwarm','1 minuto']]),
+    B('Bloque principal · 20 min',[['boxing1','3 rondas · 1 min descanso'],['chairsquat','3 × 10 rep'],['birddog','3 × 8 rep/lado'],['glubridgep','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['childpose','2 × 30 seg'],['breath478','5 respiraciones']])]),
+  // ─── PHASE 2 ───
+  p2sa:S('Core y tren superior · construcción','Fase 2 · 30 min · dead bug añadido','strength',
+    'Si el dead bug causa tensión lumbar, reduce el rango (baja menos brazo y pierna). Es mejor con poco rango que con dolor.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 22 min',[['birddog','3 × 10 rep/lado'],['deadbug','3 × 8 rep/lado'],['glubridgep','3 × 12 rep'],['bandrowsit','3 × 15 rep'],['bandpresssit','3 × 12 rep'],['wallpush','3 × 12 rep'],['plankknees','3 × 30 seg']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['hamstring','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p2mob:S('Movilidad avanzada A','Fase 2 · 30 min · paloma añadida','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['jointrot','3 minutos']]),
+    B('Bloque principal · 20 min',[['catcow','3 × 12 rep'],['thoracicrot','3 × 10 rep/lado'],['pigeon','2 × 30 seg/lado'],['hipflex','3 × 30 seg/lado'],['hamstring','3 × 30 seg/lado'],['chestopen','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['lumbartwist','2 × 25 seg/lado'],['childpose','2 × 30 seg'],['breath478','5 respiraciones']])]),
+  p2sb:S('Core y tren inferior · step-up','Fase 2 · 30 min · escalón añadido','strength',
+    'Step-up: el pie que está arriba hace todo el trabajo. El pie de abajo no empuja, solo toca el suelo para equilibrio.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['hipcircles','1 minuto']]),
+    B('Bloque principal · 22 min',[['chairsquat','3 × 12 rep'],['stepup','3 × 8 rep/lado'],['birddog','3 × 10 rep/lado'],['glubridgep','3 × 12 rep'],['latstep','3 × 10 rep/lado']]),
+    B('Enfriamiento · 5 min',[['hipflex','2 × 30 seg/lado'],['piriforme','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p2fun:S('Circuito funcional · construcción','Fase 2 · 30 min · 3 rondas de saco','functional',
+    'Saco con palma o guantes y vendas.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shadowwarm','1 minuto']]),
+    B('Bloque principal · 22 min',[['boxing1','3 rondas · 1 min descanso'],['steptoch','2 minutos'],['chairsquat','3 × 12 rep'],['stepup','2 × 8 rep/lado'],['bandrowsit','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p2sa2:S('Core y postura · construcción variante','Fase 2 · sem. 7–8 · 30 min','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 22 min',[['deadbug','3 × 10 rep/lado'],['birddog','3 × 10 rep/lado'],['glubridgep','3 × 12 rep'],['bandpull','3 × 15 rep'],['bandpresssit','3 × 12 rep'],['bandfacepull','3 × 12 rep'],['plankknees','3 × 30 seg']]),
+    B('Enfriamiento · 5 min',[['chestopen','2 × 12 rep'],['piriforme','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p2mob2:S('Movilidad avanzada B','Fase 2 · sem. 7–8 · 30 min','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shoulderrot','30 seg/dirección'],['hiplot','1 minuto']]),
+    B('Bloque principal · 20 min',[['catcow','4 × 10 rep'],['thoracicrot','3 × 10 rep/lado'],['hipflex','3 × 30 seg/lado'],['piriforme','3 × 30 seg/lado'],['chestopen','3 × 12 rep'],['bandpull','2 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['lumbartwist','2 × 25 seg/lado'],['breathdeep','3 minutos']])]),
+  p2sb2:S('Tren inferior · más variedad','Fase 2 · sem. 7–8 · 32 min','strength',
+    'Zancada inversa: si hay molestia en la rodilla delantera, reduce cuánto bajas la rodilla trasera.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['hipcircles','1 minuto'],['catcow','10 rep']]),
+    B('Bloque principal · 22 min',[['chairsquat','3 × 12 rep'],['revlunge','3 × 8 rep/lado'],['stepup','3 × 10 rep/lado'],['birddog','3 × 10 rep/lado'],['singlebridge','3 × 10 rep/lado']]),
+    B('Enfriamiento · 5 min',[['hipflex','3 × 30 seg/lado'],['hamstring','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p2fun2:S('Saco y fuerza combinados','Fase 2 · sem. 7–8 · 32 min','functional',
+    'Saco con palma o guantes y vendas.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shadowwarm','2 minutos'],['shoulderrot','30 seg']]),
+    B('Bloque principal · 22 min',[['boxing2','2 rondas · 1 min descanso'],['bandrowst','3 × 12 rep'],['bandpressst','3 × 10 rep'],['revlunge','2 × 8 rep/lado']]),
+    B('Enfriamiento · 5 min',[['childpose','2 × 30 seg'],['piriforme','2 × 30 seg/lado'],['breath478','5 respiraciones']])]),
+  // ─── PHASE 3 ───
+  p3sa:S('Core y tren superior · desarrollo','Fase 3 · 32 min · plancha en puntas','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 22 min',[['birddogh','3 × 10 rep/lado · aguante 5 seg'],['deadbug','3 × 10 rep/lado'],['glubridgep','3 × 15 rep'],['bandrowst','3 × 12 rep'],['bandpressst','3 × 12 rep'],['bandfacepull','3 × 15 rep'],['planktoes','3 × 20 seg']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['thoracicrot','2 × 8 rep/lado'],['breathdeep','2 minutos']])]),
+  p3mob:S('Movilidad profunda A','Fase 3 · 30 min','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['jointrot','3 minutos']]),
+    B('Bloque principal · 20 min',[['catcow','4 × 12 rep'],['pigeon','3 × 30 seg/lado'],['thoracicrot','4 × 10 rep/lado'],['hipflex','4 × 30 seg/lado'],['hamstring','3 × 30 seg/lado'],['chestopen','3 × 15 rep']]),
+    B('Enfriamiento · 5 min',[['lumbartwist','2 × 25 seg/lado'],['childpose','3 × 30 seg'],['breath478','5 respiraciones']])]),
+  p3sb:S('Fuerza de tren inferior · desarrollo','Fase 3 · 32 min · peso muerto y zancada','strength',
+    'Peso muerto con banda: el movimiento nace de la cadera, no de la espalda. Si sientes tensión lumbar, reduce el rango.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['hipcircles','1 minuto'],['catcow','10 rep']]),
+    B('Bloque principal · 22 min',[['chairsquat','3 × 15 rep'],['banddead','3 × 10 rep'],['revlunge','3 × 8 rep/lado'],['stepup','3 × 10 rep/lado'],['singlebridge','3 × 10 rep/lado']]),
+    B('Enfriamiento · 5 min',[['hipflex','3 × 30 seg/lado'],['piriforme','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p3fun:S('Circuito funcional · desarrollo','Fase 3 · 32 min · 2 min de saco','functional',
+    'Saco con palma o guantes.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shadowwarm','2 minutos'],['hipcircles','30 seg']]),
+    B('Bloque principal · 22 min',[['boxing2','2 rondas · 1 min descanso'],['chairsquat','3 × 15 rep'],['stepup','3 × 10 rep/lado'],['birddogh','3 × 10 rep/lado'],['bandrowst','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p3sa2:S('Core y fuerza superior · variante brazos','Fase 3 · sem. 11–12 · 32 min','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 22 min',[['planktoes','3 × 20 seg'],['deadbug','3 × 12 rep/lado'],['birddogh','3 × 10 rep/lado'],['bandrow1a','3 × 10 rep/lado'],['bandpressst','3 × 12 rep'],['bandbicep','3 × 12 rep'],['plankreach','3 × 8 rep/lado']]),
+    B('Enfriamiento · 5 min',[['chestopen','2 × 12 rep'],['piriforme','2 × 30 seg/lado'],['breath478','5 respiraciones']])]),
+  p3mob2:S('Movilidad profunda B','Fase 3 · sem. 11–12 · 30 min','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shoulderrot','30 seg/dirección'],['hiplot','1 minuto']]),
+    B('Bloque principal · 20 min',[['catcow','4 × 12 rep'],['thoracicrot','4 × 10 rep/lado'],['piriforme','3 × 30 seg/lado'],['pigeon','2 × 30 seg/lado'],['bandpull','3 × 15 rep'],['chestopen','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['lumbartwist','3 × 20 seg/lado'],['breathbox','3 minutos']])]),
+  p3sb2:S('Tren inferior · variante desarrollo','Fase 3 · sem. 11–12 · 32 min','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['hipcircles','1 minuto'],['hiplot','1 minuto']]),
+    B('Bloque principal · 22 min',[['bandsquat','3 × 12 rep'],['revlunge','3 × 8 rep/lado'],['singlebridge','3 × 12 rep/lado'],['banddead','3 × 12 rep'],['calfraise','3 × 15 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','3 × 30 seg/lado'],['hamstring','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p3fun2:S('Saco y fuerza · desarrollo','Fase 3 · sem. 11–12 · 32 min','functional',
+    'Saco con palma o guantes y vendas.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shadowwarm','2 minutos'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 22 min',[['boxing2','3 rondas · 1 min descanso'],['bandrowst','3 × 12 rep'],['bandpressst','3 × 10 rep'],['revlunge','2 × 8 rep/lado']]),
+    B('Enfriamiento · 5 min',[['childpose','2 × 30 seg'],['piriforme','2 × 30 seg/lado'],['breath478','5 respiraciones']])]),
+  // ─── PHASE 4 ───
+  p4sa:S('Fuerza de cuerpo completo A','Fase 4 · 35 min · sentadilla + press','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 25 min',[['birddogh','3 × 12 rep/lado'],['deadbug','4 × 10 rep/lado'],['squatpress','3 × 12 rep'],['bandrow1a','3 × 10 rep/lado'],['bandfacepull','3 × 15 rep'],['planktoes','4 × 25 seg'],['superman','3 × 10 rep']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['thoracicrot','2 × 10 rep/lado'],['breathdeep','2 minutos']])]),
+  p4mob:S('Movilidad y recuperación activa A','Fase 4 · 30 min','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['jointrot','3 minutos']]),
+    B('Bloque principal · 20 min',[['catcow','4 × 12 rep'],['pigeon','3 × 30 seg/lado'],['thoracicrot','4 × 10 rep/lado'],['hipflex','4 × 30 seg/lado'],['chestopen','3 × 15 rep'],['bandpull','3 × 15 rep']]),
+    B('Enfriamiento · 5 min',[['lumbartwist','3 × 25 seg/lado'],['childpose','3 × 30 seg'],['breath478','5 respiraciones']])]),
+  p4sb:S('Fuerza de cuerpo completo B','Fase 4 · 35 min · banda lateral + hip thrust','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['hipcircles','1 minuto']]),
+    B('Bloque principal · 25 min',[['banddead','3 × 12 rep'],['revlunge','3 × 10 rep/lado'],['bandlat','3 × 10 pasos/lado'],['singlebridge','4 × 12 rep/lado'],['bandrowst','3 × 15 rep'],['bandpressst','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','3 × 30 seg/lado'],['hamstring','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p4fun:S('Circuito funcional completo','Fase 4 · 35 min · combinaciones en saco','functional',
+    'Saco con palma o guantes.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shadowwarm','2 minutos'],['hipcircles','30 seg']]),
+    B('Bloque principal · 25 min',[['boxing2','3 rondas · 1 min descanso'],['squatpress','3 × 12 rep'],['stepup','3 × 12 rep/lado'],['bandrow1a','3 × 10 rep/lado'],['planktoes','3 × 25 seg']]),
+    B('Enfriamiento · 5 min',[['hipflex','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p4sa2:S('Fuerza completa · variante C','Fase 4 · sem. 15–16 · 35 min','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 25 min',[['deadbug','4 × 12 rep/lado'],['plankreach','4 × 10 rep/lado'],['bandsquat','3 × 12 rep'],['bandrow1a','3 × 12 rep/lado'],['inclinepush','3 × 10 rep'],['bandbicep','3 × 12 rep'],['singlebridge','3 × 12 rep/lado']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['thoracicrot','2 × 10 rep/lado'],['breathdeep','2 minutos']])]),
+  p4mob2:S('Movilidad y recuperación activa B','Fase 4 · sem. 15–16 · 30 min','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shoulderrot','30 seg/dirección'],['hipcircles','30 seg/lado']]),
+    B('Bloque principal · 20 min',[['catcow','4 × 12 rep'],['piriforme','4 × 30 seg/lado'],['hamstring','3 × 30 seg/lado'],['chestopen','3 × 12 rep'],['bandfacepull','3 × 12 rep'],['thoracicrot','3 × 10 rep/lado']]),
+    B('Enfriamiento · 5 min',[['childpose','2 × 30 seg'],['breathbox','3 minutos']])]),
+  p4sb2:S('Piernas y glúteos · consolidación','Fase 4 · sem. 15–16 · 35 min','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['hipcircles','1 minuto'],['catcow','10 rep']]),
+    B('Bloque principal · 25 min',[['bandsquat','3 × 15 rep'],['hipthrust','3 × 12 rep'],['revlunge','3 × 10 rep/lado'],['bandlat','3 × 12 pasos/lado'],['calfraise','3 × 15 rep'],['banddead','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','3 × 30 seg/lado'],['piriforme','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p4fun2:S('Saco avanzado y circuito','Fase 4 · sem. 15–16 · 35 min','functional',
+    'Saco con palma o guantes y vendas.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shadowwarm','2 minutos'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 25 min',[['boxingcombo','3 rondas · 1 min descanso'],['banddead','3 × 12 rep'],['revlunge','3 × 10 rep/lado'],['bandrowst','4 × 15 rep']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['childpose','2 × 30 seg'],['breath478','5 respiraciones']])]),
+  // ─── PHASE 5 ───
+  p5sa:S('Progresión de fuerza A','Fase 5 · 35 min · variantes avanzadas','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 25 min',[['birddogh','4 × 12 rep/lado'],['deadbug','4 × 12 rep/lado'],['plankreach','4 × 10 rep/lado'],['bandrow1a','4 × 12 rep/lado'],['inclinepush','3 × 10 rep'],['bandfacepull','4 × 15 rep'],['singlebridge','4 × 12 rep/lado']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['thoracicrot','2 × 10 rep/lado'],['breathdeep','2 minutos']])]),
+  p5mob:S('Movilidad de progresión A','Fase 5 · 30 min · movilidad completa','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['jointrot','3 minutos']]),
+    B('Bloque principal · 20 min',[['catcow','4 × 12 rep'],['pigeon','4 × 30 seg/lado'],['thoracicrot','4 × 12 rep/lado'],['hipflex','4 × 30 seg/lado'],['hamstring','4 × 30 seg/lado'],['chestopen','4 × 15 rep']]),
+    B('Enfriamiento · 5 min',[['lumbartwist','3 × 25 seg/lado'],['childpose','3 × 30 seg'],['breath478','5 respiraciones']])]),
+  p5sb:S('Progresión de tren inferior','Fase 5 · 35 min · hip thrust y potencia','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['hipcircles','1 minuto'],['catcow','10 rep']]),
+    B('Bloque principal · 25 min',[['squatpress','4 × 12 rep'],['banddead','4 × 12 rep'],['revlunge','4 × 10 rep/lado'],['bandlat','4 × 10 pasos/lado'],['hipthrust','4 × 12 rep'],['calfraise','3 × 15 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','3 × 30 seg/lado'],['hamstring','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p5fun:S('Circuito de alta función A','Fase 5 · 35 min · 3 rondas de 2 min','functional',
+    'Saco con palma o guantes.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shadowwarm','2 minutos'],['hipcircles','30 seg']]),
+    B('Bloque principal · 25 min',[['boxing2','3 rondas · 1 min descanso'],['squatpress','4 × 12 rep'],['stepup','4 × 12 rep/lado'],['bandrow1a','4 × 10 rep/lado'],['planktoes','4 × 30 seg']]),
+    B('Enfriamiento · 5 min',[['hipflex','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p5sa2:S('Progresión de fuerza B','Fase 5 · sem. 19–20 · 35 min','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['catcow','10 rep'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 25 min',[['deadbug','4 × 12 rep/lado'],['birddogh','4 × 12 rep/lado'],['squatpress','3 × 15 rep'],['bandrow1a','4 × 12 rep/lado'],['inclinepush','3 × 12 rep'],['bandtricep','3 × 12 rep'],['planktoes','4 × 30 seg']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['thoracicrot','2 × 10 rep/lado'],['breathdeep','2 minutos']])]),
+  p5mob2:S('Movilidad de progresión B','Fase 5 · sem. 19–20 · 30 min','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shoulderrot','30 seg/dirección'],['hiplot','1 minuto']]),
+    B('Bloque principal · 20 min',[['catcow','4 × 12 rep'],['piriforme','4 × 30 seg/lado'],['pigeon','3 × 30 seg/lado'],['chestopen','4 × 15 rep'],['bandpull','4 × 15 rep'],['bandfacepull','3 × 15 rep']]),
+    B('Enfriamiento · 5 min',[['lumbartwist','3 × 25 seg/lado'],['breathbox','3 minutos']])]),
+  p5sb2:S('Tren inferior · nivel más alto','Fase 5 · sem. 19–20 · 35 min','strength',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['hipcircles','1 minuto'],['catcow','10 rep']]),
+    B('Bloque principal · 25 min',[['bandsquat','4 × 15 rep'],['hipthrust','4 × 15 rep'],['revlunge','4 × 10 rep/lado'],['bandlat','4 × 12 pasos/lado'],['banddead','3 × 12 rep'],['calfraise','3 × 15 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','3 × 30 seg/lado'],['piriforme','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p5fun2:S('Saco intenso y fuerza','Fase 5 · sem. 19–20 · 35 min','functional',
+    'Saco con palma o guantes y vendas.',[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['shadowwarm','2 minutos'],['shoulderrot','30 seg/dirección']]),
+    B('Bloque principal · 25 min',[['boxingcombo','4 rondas · 1 min descanso'],['banddead','3 × 12 rep'],['inclinepush','3 × 12 rep'],['bandrowst','4 × 15 rep']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['childpose','2 × 30 seg'],['breath478','5 respiraciones']])]),
+  // ─── PHASE 6 ───
+  p6sa:S('Rendimiento · fuerza A','Fase 6 · 38 min · sesión cumbre','strength',null,[
+    B('Calentamiento · 6 min',[['march','2 minutos'],['catcow','10 rep'],['shoulderrot','30 seg/dirección'],['hipcircles','30 seg/lado']]),
+    B('Bloque principal · 27 min',[['deadbug','4 × 12 rep/lado'],['plankreach','4 × 12 rep/lado'],['birddogh','4 × 12 rep/lado'],['bandrow1a','4 × 15 rep/lado'],['inclinepush','4 × 12 rep'],['bandfacepull','4 × 15 rep'],['singlebridge','4 × 15 rep/lado'],['bandtricep','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['piriforme','2 × 30 seg/lado'],['thoracicrot','2 × 10 rep/lado'],['breathdeep','2 minutos']])]),
+  p6mob:S('Rendimiento · movilidad completa','Fase 6 · 32 min · movilidad maestra','mobility',null,[
+    B('Calentamiento · 5 min',[['march','2 minutos'],['jointrot','3 minutos']]),
+    B('Bloque principal · 22 min',[['catcow','5 × 12 rep'],['pigeon','4 × 30 seg/lado'],['thoracicrot','4 × 12 rep/lado'],['hipflex','4 × 30 seg/lado'],['hamstring','4 × 30 seg/lado'],['chestopen','4 × 15 rep'],['bandfacepull','3 × 15 rep']]),
+    B('Enfriamiento · 5 min',[['lumbartwist','3 × 25 seg/lado'],['childpose','3 × 30 seg'],['breath478','5 respiraciones']])]),
+  p6sb:S('Rendimiento · fuerza B (piernas)','Fase 6 · 38 min · potencia de tren inferior','strength',null,[
+    B('Calentamiento · 6 min',[['march','2 minutos'],['hipcircles','1 minuto'],['catcow','10 rep'],['hiplot','1 minuto']]),
+    B('Bloque principal · 27 min',[['squatpress','4 × 15 rep'],['banddead','4 × 12 rep'],['hipthrust','4 × 15 rep'],['revlunge','4 × 10 rep/lado'],['bandlat','4 × 12 pasos/lado'],['calfraise','3 × 15 rep'],['superman','3 × 10 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','3 × 30 seg/lado'],['hamstring','3 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+  p6fun:S('Rendimiento · circuito máximo','Fase 6 · 38 min · saco de 3 minutos','functional',
+    'Saco con palma o guantes. A estas alturas el cuerpo está preparado para la mayor intensidad del programa.',[
+    B('Calentamiento · 6 min',[['march','2 minutos'],['shadowwarm','2 minutos'],['hipcircles','30 seg'],['shoulderrot','30 seg']]),
+    B('Bloque principal · 27 min',[['boxing3','2 rondas · 90 seg descanso'],['squatpress','4 × 15 rep'],['stepup','4 × 12 rep/lado'],['bandrow1a','4 × 12 rep/lado'],['planktoes','4 × 30 seg'],['bandtricep','3 × 12 rep']]),
+    B('Enfriamiento · 5 min',[['hipflex','2 × 30 seg/lado'],['piriforme','2 × 30 seg/lado'],['breathdeep','2 minutos']])]),
+};
+
+/* ══════════════════════════════════════
+   26-WEEK PROGRAM [lun,mar,mié,jue,vie,sáb,dom]
+══════════════════════════════════════ */
+const PROG=[
+  ['p1sa','p1mob','p1sa','p1mob','p1sb','p1fun',null],
+  ['p1sa','p1mob','p1sa','p1mob','p1sb','p1fun',null],
+  ['p1sa2','p1mob2','p1sa2','p1mob2','p1sb2','p1fun2',null],
+  ['p1sa2','p1mob2','p1sa2','p1mob2','p1sb2','p1fun2',null],
+  ['p2sa','p2mob','p2sa','p2mob','p2sb','p2fun',null],
+  ['p2sa','p2mob','p2sa','p2mob','p2sb','p2fun',null],
+  ['p2sa2','p2mob2','p2sa2','p2mob2','p2sb2','p2fun2',null],
+  ['p2sa2','p2mob2','p2sa2','p2mob2','p2sb2','p2fun2',null],
+  ['p3sa','p3mob','p3sa','p3mob','p3sb','p3fun',null],
+  ['p3sa','p3mob','p3sa','p3mob','p3sb','p3fun',null],
+  ['p3sa2','p3mob2','p3sa2','p3mob2','p3sb2','p3fun2',null],
+  ['p3sa2','p3mob2','p3sa2','p3mob2','p3sb2','p3fun2',null],
+  ['p4sa','p4mob','p4sa','p4mob','p4sb','p4fun',null],
+  ['p4sa','p4mob','p4sa','p4mob','p4sb','p4fun',null],
+  ['p4sa2','p4mob2','p4sa2','p4mob2','p4sb2','p4fun2',null],
+  ['p4sa2','p4mob2','p4sa2','p4mob2','p4sb2','p4fun2',null],
+  ['p5sa','p5mob','p5sa','p5mob','p5sb','p5fun',null],
+  ['p5sa','p5mob','p5sa','p5mob','p5sb','p5fun',null],
+  ['p5sa2','p5mob2','p5sa2','p5mob2','p5sb2','p5fun2',null],
+  ['p5sa2','p5mob2','p5sa2','p5mob2','p5sb2','p5fun2',null],
+  ['p6sa','p6mob','p6sa','p6mob','p6sb','p6fun',null],
+  ['p6sa','p6mob','p6sb','p6mob','p6sa','p6fun',null],
+  ['p6sa','p6mob','p6sa','p6mob','p6sb','p6fun',null],
+  ['p6sb','p6mob','p6sa','p6mob','p6sb','p6fun',null],
+  ['p6sa','p6mob','p6sb','p6mob','p6sa','p6fun',null],
+  ['p6sa','p6mob','p6sa','p6mob','p6sb','p6fun',null],
+];
+
+const DAYS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const TYPE_DOT={strength:'#1D9E75',mobility:'#BA7517',functional:'#E24B4A',rest:'#888780'};
+const TYPE_BADGE={strength:'bs',mobility:'ba',functional:'bred',rest:'bgr'};
+const TYPE_LABEL={strength:'Fuerza',mobility:'Movilidad',functional:'Funcional',rest:'Descanso'};
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let startDate=null,completed=[],viewWeekIdx=0;
+
+// Safe storage: works on iOS file://, Android Chrome, and all browsers
+const store=(()=>{
+  let mem={};
+  let ok=false;
+  try{localStorage.setItem('_t','1');localStorage.removeItem('_t');ok=true;}catch(e){}
+  return{
+    get:(k)=>{try{return ok?localStorage.getItem(k):mem[k]||null;}catch(e){return mem[k]||null;}},
+    set:(k,v)=>{try{if(ok)localStorage.setItem(k,v);else mem[k]=v;}catch(e){mem[k]=v;}},
+    del:(k)=>{try{if(ok)localStorage.removeItem(k);else delete mem[k];}catch(e){delete mem[k];}}
+  };
+})();
+
+function load(){
+  try{
+    const d=store.get('fit_start');
+    const c=store.get('fit_done');
+    if(d) startDate=new Date(d);
+    if(c) completed=JSON.parse(c);
+  }catch(e){}
+}
+function save(){
+  try{
+    if(startDate) store.set('fit_start',startDate.toISOString());
+    store.set('fit_done',JSON.stringify(completed));
+  }catch(e){}
+}
+function doneKey(wIdx,dIdx){return`${wIdx}_${dIdx}`;}
+function isDone(wIdx,dIdx){return completed.includes(doneKey(wIdx,dIdx));}
+function markDone(wIdx,dIdx){
+  const k=doneKey(wIdx,dIdx);
+  if(!completed.includes(k)){completed.push(k);save();}
+}
+
+/* ══════════════════════════════════════
+   DATE / WEEK HELPERS
+══════════════════════════════════════ */
+function daysSince(d){
+  const now=new Date();now.setHours(0,0,0,0);
+  const s=new Date(d);s.setHours(0,0,0,0);
+  return Math.floor((now-s)/86400000);
+}
+function currentWeekIdx(){
+  if(!startDate) return 0;
+  const w=Math.floor(daysSince(startDate)/7);
+  return Math.min(w,25);
+}
+function currentDayIdx(){
+  if(!startDate) return 0;
+  const d=daysSince(startDate)%7;
+  return Math.max(0,Math.min(d,6));
+}
+function phaseOf(wIdx){
+  if(wIdx<4)return 0;if(wIdx<8)return 1;if(wIdx<12)return 2;
+  if(wIdx<16)return 3;if(wIdx<20)return 4;return 5;
+}
+function weekOffset(ph){return[0,4,8,12,16,20][ph];}
+function countStreak(){
+  if(!startDate) return 0;
+  let streak=0,d=new Date();d.setHours(0,0,0,0);
+  const s=new Date(startDate);s.setHours(0,0,0,0);
+  for(let i=0;i<180;i++){
+    const diff=Math.floor((d-s)/86400000);
+    if(diff<0) break;
+    const wIdx=Math.floor(diff/7);const dIdx=diff%7;
+    if(wIdx>25) break;
+    const sid=PROG[wIdx][dIdx];
+    if(sid&&isDone(wIdx,dIdx)) streak++;
+    else if(i>0) break;
+    d.setDate(d.getDate()-1);
+  }
+  return streak;
+}
+
+/* ══════════════════════════════════════
+   APP INIT
+══════════════════════════════════════ */
+function initApp(){
+  
+  
+  
+  viewWeekIdx=currentWeekIdx();
+  const d=new Date();
+  const opts={weekday:'long',day:'numeric',month:'long'};
+  document.getElementById('navSub').textContent=d.toLocaleDateString('es-ES',opts);
+  goTab('home');
+}
+
+/* ══════════════════════════════════════
+   TABS
+══════════════════════════════════════ */
+function goTab(id){
+  document.querySelectorAll('.scr').forEach(s=>{s.classList.remove('on');});
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('scr'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('on');
+  document.getElementById('tab-'+id).classList.add('on');
+  if(id==='home') renderHome();
+  if(id==='week'){viewWeekIdx=currentWeekIdx();renderWeek();}
+  if(id==='prog') renderProg();
+}
+
+/* ══════════════════════════════════════
+   HOME
+══════════════════════════════════════ */
+function renderHome(){
+  const wIdx=currentWeekIdx(),dIdx=currentDayIdx();
+  const ph=phaseOf(wIdx);const phase=PHASES[ph];
+  const sid=PROG[wIdx][dIdx];
+  const sess=sid?SS[sid]:null;
+  const streak=countStreak();
+  const pct=Math.round((wIdx/26)*100);
+  const qi=new Date().getDate()%QQ.length;
+  const q=QQ[qi];
+
+  // Hero
+  document.getElementById('heroWrap').innerHTML=`<div class="hero" style="background:linear-gradient(150deg,${phase.c},${phase.c}bb)">
+    <div class="hero-pedro">Buenos días, Pedro 👋</div>
+    <div class="hero-quote">"${q.q}"</div>
+    <div class="hero-author">— ${q.a}</div>
+    <div class="hero-pills">
+      <div class="hero-pill"><div class="hero-num">${streak}</div><div class="hero-lbl">días racha</div></div>
+      <div class="hero-pill"><div class="hero-num">${wIdx+1}</div><div class="hero-lbl">semana</div></div>
+      <div class="hero-pill"><div class="hero-num">${ph+1}/6</div><div class="hero-lbl">fase</div></div>
+    </div>
+    <div class="hero-prog">
+      <div class="hero-prog-bar"><div class="hero-prog-fill" style="width:${Math.max(1,pct)}%"></div></div>
+      <div class="hero-prog-lbl"><span>${phase.name}</span><span>${pct}% completado</span></div>
+    </div>
+  </div>`;
+
+  // Today card
+  const done=sid&&isDone(wIdx,dIdx);
+  const todayEl=document.getElementById('todayWrap');
+  if(!sess){
+    todayEl.innerHTML=`<div class="today-card"><div class="today-hdr"><div class="today-hdr-text"><div class="today-lbl">Hoy · ${DAYS[dIdx]}</div><div class="today-title">Descanso activo</div><div class="today-sub">Sin sesión · solo caminata habitual</div></div><span class="badge bgr">Descanso</span></div></div>`;
+    document.getElementById('todayBtn').style.display='none';
+  } else {
+    let exHtml='';
+    const mb=sess.blocks.find(b=>b.name.includes('principal'));
+    if(mb) mb.exs.slice(0,4).forEach(([eid,sets])=>{
+      const ex=EX[eid];if(!ex)return;
+      exHtml+=`<div class="tei"><div class="tei-dot" style="background:${TYPE_DOT[sess.type]}"></div><div class="tei-name">${ex.n}</div><div class="tei-sets">${sets}</div></div>`;
+    });
+    todayEl.innerHTML=`<div class="today-card">
+      <div class="today-hdr" style="border-left:3px solid ${phase.c}">
+        <div class="today-hdr-text">
+          <div class="today-lbl">Sesión de hoy · ${DAYS[dIdx]}</div>
+          <div class="today-title">${sess.title}</div>
+          <div class="today-sub">${sess.sub}</div>
+        </div>
+        <span class="badge ${done?'bs':'ba'}">${done?'✓ Hecha':'Pendiente'}</span>
+      </div>
+      ${exHtml}
+    </div>`;
+    const btn=document.getElementById('todayBtn');
+    btn.style.display='block';
+    btn.textContent=done?'🔁 Ver sesión de hoy':'▶ Empezar sesión de hoy';
+    btn.style.background=done?'#6b6459':phase.c;
+    btn.className='btn-start'+(done?' done-color':'');
+    btn.onclick=()=>openSess(wIdx,dIdx,'home');
+  }
+
+  // Mini week grid
+  document.getElementById('homeWg').innerHTML=DAYS.map((dl,di)=>{
+    const s=PROG[wIdx][di];
+    const dn=s&&isDone(wIdx,di);
+    const isTdy=di===dIdx;
+    return`<div class="wg-d"><div class="wg-l">${dl.slice(0,1)}</div>
+      <div class="wg-dot${dn?' done':''}${isTdy&&!dn?' today':''}"
+        onclick="openSess(${wIdx},${di},'home')"
+        style="${isTdy&&!dn?'border-color:'+phase.c:''}">
+        ${dn?'✓':isTdy?'●':''}
+      </div></div>`;
+  }).join('');
+}
+function openTodaySess(){
+  const wIdx=currentWeekIdx(),dIdx=currentDayIdx();
+  openSess(wIdx,dIdx,'home');
+}
+
+function changeWk(dir){
+  viewWeekIdx=Math.max(0,Math.min(25,viewWeekIdx+dir));
+  renderWeek();
+}
+function renderWeek(){
+  const ph=phaseOf(viewWeekIdx);const phase=PHASES[ph];
+  const curWk=currentWeekIdx(),curDy=currentDayIdx();
+  document.getElementById('wkTitle').textContent=`Semana ${viewWeekIdx+1} de 26`;
+  const tag=document.getElementById('wkPhaseTag');
+  tag.textContent=phase.name;tag.style.background=phase.c;
+  const list=document.getElementById('dayList');
+  const week=PROG[viewWeekIdx];
+  list.innerHTML=week.map((sid,di)=>{
+    const sess=sid?SS[sid]:null;
+    const tp=sess?sess.type:'rest';
+    const done=sid&&isDone(viewWeekIdx,di);
+    const isToday=viewWeekIdx===curWk&&di===curDy;
+    return`<div class="day-card${isToday?' today-h':''}" onclick="openSess(${viewWeekIdx},${di},'week')">
+      <div class="day-inner">
+        <div class="day-left">
+          <div class="day-letter">${DAYS[di].charAt(0)}</div>
+          <div class="day-num">${di+1}</div>
+          <div class="day-dot" style="background:${TYPE_DOT[tp]}"></div>
+        </div>
+        <div class="day-body">
+          <div class="day-name">${DAYS[di]} — ${sess?sess.title:'Descanso activo'}</div>
+          <div class="day-meta">
+            <span class="badge ${TYPE_BADGE[tp]}">${TYPE_LABEL[tp]}</span>
+            ${isToday?`<span class="badge bs">Hoy</span>`:''}
+            ${done?`<span class="badge bgr">✓ Completada</span>`:''}
+          </div>
+        </div>
+        <div class="day-arr">›</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════
+   SESSION SCREEN
+══════════════════════════════════════ */
+let _sessWk=0,_sessDi=0,_sessFrom='home';
+function openSess(wIdx,dIdx,from){
+  _sessWk=wIdx;_sessDi=dIdx;_sessFrom=from;
+  const sid=PROG[wIdx][dIdx];
+  const ph=phaseOf(wIdx);const phase=PHASES[ph];
+  const scr=document.getElementById('scrSess');
+  if(!sid){
+    scr.innerHTML=`<div style="background:linear-gradient(150deg,#888780,#6b6459);padding:20px 16px 24px">
+      <button class="sess-back" onclick="closeSess()">‹</button>
+      <div class="sess-title">${DAYS[dIdx]} — Descanso activo</div>
+      <div class="sess-sub">Sin sesión de entrenamiento</div>
+    </div>
+    <div style="padding:30px 20px;text-align:center">
+      <div style="font-size:36px;margin-bottom:12px">🚶</div>
+      <div style="font-size:16px;font-weight:600;margin-bottom:8px;color:var(--t)">Día de descanso activo</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.7">Los músculos crecen y se recuperan durante el descanso, no durante el entrenamiento.<br><br>Los 10.000 pasos habituales son todo lo que necesitas hoy. El domingo es tan importante como el lunes.</div>
+    </div>`;
+    showSess();return;
+  }
+  const s=SS[sid];
+  const done=isDone(wIdx,dIdx);
+  let html=`<div class="sess-top" style="background:linear-gradient(150deg,${phase.c},${phase.c}cc)">
+    <button class="sess-back" onclick="closeSess()">‹</button>
+    <div class="sess-title">${s.title}</div>
+    <div class="sess-sub">${s.sub}</div>
+    <div class="sess-tags">
+      ${s.blocks.map(b=>b.name?`<span class="sess-tag">${b.name.split(' · ')[0]}</span>`:'').filter(Boolean).join('')}
+    </div>
+  </div>`;
+  if(s.warn) html+=`<div class="warn-box">⚠️ ${s.warn}</div>`;
+
+  let idx=0;
+  s.blocks.forEach(blk=>{
+    if(blk.name) html+=`<div class="blk-lbl">${blk.name}</div>`;
+    blk.exs.forEach(([eid,sets])=>{
+      idx++;
+      const ex=EX[eid];if(!ex)return;
+      const bid='eb'+idx;
+      html+=`<div class="ex-card">
+        <div class="ex-hdr" onclick="togEx('${bid}')">
+          <div class="ex-idx" style="background:${phase.c}20;color:${phase.c}">${idx}</div>
+          <div style="flex:1"><div class="ex-name">${ex.n}</div><div class="ex-sets">${sets}</div></div>
+          <div class="ex-arr" id="${bid}a">▾</div>
+        </div>
+        <div class="ex-body" id="${bid}">
+          <div class="ex-muscle">${ex.m}</div>
+          <div class="ex-desc">${ex.d}</div>
+          <div class="ex-tip">${ex.tip}</div>
+          ${ex.rest>0?`<button class="ex-rest-btn" onclick="startTimer(${ex.rest},'Descanso · ${ex.rest} segundos')">⏱ Descanso ${ex.rest} seg</button>`:''}
+        </div>
+      </div>`;
+    });
+  });
+
+  html+=`<div class="done-btn-wrap">
+    <button class="done-btn${done?' done':''}" id="doneBtnMain" onclick="doMarkDone()">${done?'✓ Sesión completada — marcar de nuevo':'🎯 Marcar sesión como completada'}</button>
+  </div><div class="spacer"></div>`;
+
+  scr.innerHTML=html;
+  showSess();
+}
+
+function showSess(){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('scrSess').classList.add('on');
+}
+function closeSess(){
+  const id=_sessFrom==='week'?'week':'home';
+  goTab(id);
+}
+function togEx(id){
+  const b=document.getElementById(id);
+  const a=document.getElementById(id+'a');
+  const o=b.classList.toggle('open');
+  a.textContent=o?'▴':'▾';
+}
+function doMarkDone(){
+  markDone(_sessWk,_sessDi);
+  const btn=document.getElementById('doneBtnMain');
+  if(btn){btn.textContent='✓ ¡Sesión completada! ¡Muy bien!';btn.style.background='var(--bl)';btn.classList.add('done');}
+}
+
+/* ══════════════════════════════════════
+   TIMER
+══════════════════════════════════════ */
+let tIv=null,tTotal=0,tLeft=0;
+function startTimer(secs,label){
+  tTotal=secs;tLeft=secs;
+  document.getElementById('tLbl').textContent=label||'Descansando…';
+  updTimer();document.getElementById('tOv').classList.add('vis');
+  clearInterval(tIv);
+  tIv=setInterval(()=>{tLeft--;if(tLeft<=0){clearInterval(tIv);tLeft=0;if(navigator.vibrate)navigator.vibrate([200,100,200]);}updTimer();},1000);
+}
+function updTimer(){
+  document.getElementById('tNum').textContent=tLeft;
+  const circ=2*Math.PI*82;
+  const pct=tLeft/tTotal;
+  document.getElementById('tArc').setAttribute('stroke-dashoffset',circ*(1-pct));
+  document.getElementById('tArc').setAttribute('stroke',tLeft<=5?'#f09595':'#a8d5c4');
+}
+function stopTimer(){clearInterval(tIv);document.getElementById('tOv').classList.remove('vis');}
+
+/* ══════════════════════════════════════
+   PROGRESS SCREEN
+══════════════════════════════════════ */
+function renderProg(){
+  const wIdx=currentWeekIdx();
+  const ph=phaseOf(wIdx);const phase=PHASES[ph];
+  const streak=countStreak();
+  const thisWeekDone=DAYS.map((_,di)=>{const s=PROG[wIdx][di];return s&&isDone(wIdx,di)?1:0;}).reduce((a,b)=>a+b,0);
+  const totalDone=completed.length;
+
+  // Hero
+  const phStart=weekOffset(ph);const phLen=ph===5?6:4;
+  const phPct=Math.round(((wIdx-phStart)/phLen)*100);
+  document.getElementById('progHeroWrap').innerHTML=`<div class="prog-hero" style="background:linear-gradient(150deg,${phase.c},${phase.c}bb)">
+    <div class="prog-title">Mi progreso</div>
+    <div class="prog-sub">Semana ${wIdx+1} de 26 · ${phase.name}</div>
+    <div class="prog-phase-wrap">
+      <div class="prog-phase-name">${phase.name}</div>
+      <div class="prog-phase-desc">${phase.desc}</div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:${Math.max(2,phPct)}%"></div></div>
+      <div class="prog-bar-lbl"><span>Sem. ${phase.weeks}</span><span>${phPct}% completada</span></div>
+    </div>
+  </div>`;
+
+  document.getElementById('stSes').textContent=totalDone;
+  document.getElementById('stRac').textContent=streak;
+  document.getElementById('stWk').textContent=thisWeekDone+'/6';
+
+  // Phase pills
+  const pillsEl=document.getElementById('phasePills');
+  pillsEl.innerHTML=PHASES.map((p,i)=>{
+    const isCur=i===ph;
+    const isDonePh=weekOffset(i)<wIdx;
+    return`<div class="phase-pill${isCur?' cur':''}${isDonePh&&!isCur?' done-ph':''}" style="${isCur?'background:'+p.c+';border-color:'+p.c:''}">${p.name.split(' — ')[0]}<span class="phase-pill-wk">Sem. ${p.weeks}</span></div>`;
+  }).join('');
+
+  // Log
+  const logEl=document.getElementById('logList');
+  if(completed.length===0){
+    logEl.innerHTML=`<div style="padding:0 12px;font-size:13px;color:var(--t3)">Completa tu primera sesión para ver el historial aquí.</div>`;
+    return;
+  }
+  const icons={strength:'💪',mobility:'🧘',functional:'🥊',rest:'🚶'};
+  let html='';
+  [...completed].reverse().slice(0,12).forEach(k=>{
+    const[wi,di]=k.split('_').map(Number);
+    if(wi>25||di>6) return;
+    const sid=PROG[wi][di];if(!sid) return;
+    const s=SS[sid];
+    html+=`<div class="log-item">
+      <div class="log-icon">${icons[s.type]||'✓'}</div>
+      <div style="flex:1"><div class="log-name">${s.title}</div><div class="log-date">Semana ${wi+1} · ${DAYS[di]}</div></div>
+      <div class="log-ck">✓</div>
+    </div>`;
+  });
+  logEl.innerHTML=html||`<div style="padding:0 12px;font-size:13px;color:var(--t3)">Completa tu primera sesión para ver el historial aquí.</div>`;
+}
+
+/* ══════════════════════════════════════
+   RESET
+══════════════════════════════════════ */
+function doReset(){
+  if(confirm('¿Resetear la fecha de inicio del programa a hoy?\n\nEsto reiniciará la semana actual pero no borrará el historial de sesiones.')){
+    startDate=new Date();
+    startDate.setHours(0,0,0,0);
+    save();
+    viewWeekIdx=0;
+    goTab('home');
+  }
+}
+
+/* ══════════════════════════════════════
+   BOOT
+══════════════════════════════════════ */
+load();
+if(!startDate){
+  startDate=new Date();
+  startDate.setHours(0,0,0,0);
+  save();
+}
+initApp();
+
+</script>
+</body>
+</html>
